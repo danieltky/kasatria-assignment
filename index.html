@@ -3,42 +3,9 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="google-signin-client_id" content="782146836024-s25snr3e9450v0s10lra780dfo03ah8v.apps.googleusercontent.com">
 	<title>CSS3D - Periodic Table</title>
-
-	<!-- Add the Google Sign-In script -->
+	
 	<link rel="stylesheet" href="/assets/css/style.css" />
-	<!-- <script src="/assets/vendor/threejs/three.min.js"></script> -->
-	
-
-</head>
-<body>
-
-
-				<h1 style="text-align: center;">Welcome Back</h1>
-				<h5 style="text-align: center;">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</h5>
-
-				<!-- Add the Google Sign-In button -->
-				<div class="g-signin2" data-onsuccess="onSignIn"></div>
-				<div class="data">
-					<p>Name</p>
-					<p id="name" class="alert alert-success"></p>
-					<img id="image" class="rounded-circle" width="100" height="100"></img>
-					<p>Email</p>
-					<p id="email"></p>
-					<button type="button" class="btn btn-danger" onclick="signOut()">Sign Out</button>
-				</div>
-
-	<!-- <div id="container" style="display: none;"></div>
-	
-	<div id="menu" style="display: none;">
-		<button id="table">TABLE</button>
-		<button id="sphere">SPHERE</button>
-		<button id="helix">HELIX</button>
-		<button id="grid">GRID</button>
-		<button id="signout-button">Sign Out</button>
-	</div> -->
-
 	<script type="importmap">
 		{
 			"imports": {
@@ -49,32 +16,19 @@
 	<script type="module" src="/assets/vendor/threejs/tween.module.js"></script>
 	<script type="module" src="/assets/vendor/threejs/controls/TrackballControls.js"></script>
 	<script type="module" src="/assets/vendor/threejs/renderers/CSS3DRenderer.js"></script>
-	<script src="https://apis.google.com/js/platform.js" async defer></script>
-	<script src="https://apis.google.com/js/api.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-	<!-- <script src="https://accounts.google.com/gsi/client" async defer></script> -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+
+</head>
+<body>
+	<div id="container"></div>
+
+	<div id="menu">
+		<button id="table">TABLE</button>
+		<button id="sphere">SPHERE</button>
+		<button id="helix">HELIX</button>
+		<button id="grid">GRID</button>
+	</div>
+
 	<script type="module" src="/assets/js/main.js"></script>
-	<script>
-		function onSignIn(googleUser) {
-			var profile = googleUser.getBasicProfile();
-			$("#name").text(profile.getName());
-			$("#email").text(profile.getEmail());
-			$("#image").attr('src', profile.getImageUrl());
-			$(".data").css("display","block");
-			$(".g-signin2").css("display","none");
-			$("#container").css("display","none");
-			$("#menu").css("display","none");
-
-		}
-
-		function signOut() {
-			var auth2 = gapi.auth2.getAuthInstance();
-			auth2.signOut().then(function () {
-				alert("You have been signed out successfully");
-				$(".g-signin2").css("display", "block");
-				$(".data").css("display","none");
-			});
-		}
-	</script>
 </body>
 </html>

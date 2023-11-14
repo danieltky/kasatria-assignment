@@ -190,9 +190,6 @@ import { TrackballControls } from '../vendor/threejs/controls/TrackballControls.
 	function htmlElement(table, i) {
 		let element = document.createElement('div');
 		element.className = 'element';
-		// element.onclick = function () {
-		// 	elementClickHandler(i, element);
-		// };
 		element.style.backgroundColor = 'rgba(0,127,127,' + (Math.random() * 0.5 + 0.25) + ')';
 		element.style.pointerEvents = 'auto';
 
