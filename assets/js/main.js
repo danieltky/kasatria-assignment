@@ -6,44 +6,27 @@ import {
 import TWEEN from '../vendor/threejs/tween.module.js';
 import { TrackballControls } from '../vendor/threejs/controls/TrackballControls.js';
 
-// function initGoogleSignIn() {
-//   gapi.load('auth2', function() {
-//     gapi.auth2.init({
-//       client_id: '782146836024-s25snr3e9450v0s10lra780dfo03ah8v.apps.googleusercontent.com',
-//     });
-//   });
-// }
+function onSignIn(googleUser) {
+	var profile = googleUser.getBasicProfile();
+	$("#name").text(profile.getName());
+	$("#email").text(profile.getEmail());
+	$("#image").attr('src', profile.getImageUrl());
+	$(".data").css("display","block");
+	$(".g-signin2").css("display","none");
+	$("#container").css("display","none");
+	$("#menu").css("display","none");
 
-// // Call the initGoogleSignIn function to initialize the Google Sign-In API
-// initGoogleSignIn();
+}
 
-// function onSignIn(googleUser) {
-//   // Get the user's ID token, which can be used to authenticate with the backend
-//   var id_token = googleUser.getAuthResponse().id_token;
+function signOut() {
+	var auth2 = gapi.auth2.getAuthInstance();
+	auth2.signOut().then(function () {
+		alert("You have been signed out successfully");
+		$(".g-signin2").css("display", "block");
+		$(".data").css("display","none");
+	});
+}
 
-//   // Get the user's profile information
-//   var profile = googleUser.getBasicProfile();
-//   console.log('ID: ' + profile.getId());
-//   console.log('Name: ' + profile.getName());
-//   console.log('Image URL: ' + profile.getImageUrl());
-//   console.log('Email: ' + profile.getEmail());
-
-//   // Load the Google Sheets API client
-//   gapi.client.load('https://sheets.googleapis.com/$discovery/rest?version=v4').then(function() {
-//     console.log('Google Sheets API client loaded');
-//     // You can now use the Google Sheets API functions here
-//     // For example, you can make API requests to read or write data to a Google Sheet
-//   });
-// }
-
-// document.getElementById('signout-button').addEventListener('click', function() {
-//   var auth2 = gapi.auth2.getAuthInstance();
-//   auth2.signOut().then(function() {
-//     console.log('User signed out.');
-//   });
-// });
-
-// document.addEventListener("DOMContentLoaded", function () {
 	const table = [
 		"H", "Hydrogen", "1.00794", 1, 1,
 		"He", "Helium", "4.002602", 18, 1,
@@ -400,6 +383,4 @@ import { TrackballControls } from '../vendor/threejs/controls/TrackballControls.
 		
 		TWEEN.update();
 		controls.update();
-		// composer.render();
 	}
-// });

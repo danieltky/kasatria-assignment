@@ -3,14 +3,13 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="google-signin-client_id" content="782146836024-s25snr3e9450v0s10lra780dfo03ah8v.apps.googleusercontent.com">
 	<title>CSS3D - Periodic Table</title>
 
 	<!-- Add the Google Sign-In script -->
-	<meta name="google-signin-client_id" content="782146836024-s25snr3e9450v0s10lra780dfo03ah8v.apps.googleusercontent.com">
-	<script src="https://apis.google.com/js/platform.js" async defer></script>
-	<script src="https://apis.google.com/js/api.js"></script>
 	
-	<!-- <link rel="stylesheet" href="/assets/css/style.css" /> -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+	<link rel="stylesheet" href="/assets/css/style.css" />
 	<!-- <script src="/assets/vendor/threejs/three.min.js"></script> -->
 	<script type="importmap">
 		{
@@ -23,93 +22,34 @@
 	<script type="module" src="/assets/vendor/threejs/controls/TrackballControls.js"></script>
 	<script type="module" src="/assets/vendor/threejs/renderers/CSS3DRenderer.js"></script>
 
-	<style>
-		html, body {
-			height: 100%;
-		}
-
-		body {
-			background-color: #000000;
-			margin: 0;
-			font-family: Helvetica, sans-serif;;
-			overflow: hidden;
-		}
-
-		a {
-			color: #ffffff;
-		}
-
-		#menu {
-			position: absolute;
-			bottom: 20px;
-			width: 100%;
-			text-align: center;
-		}
-
-		.element {
-			width: 120px;
-			height: 160px;
-			box-shadow: 0px 0px 12px rgba(0, 255, 255, 0.5);
-			border: 1px solid rgba(127, 255, 255, 0.25);
-			text-align: center;
-			cursor: default;
-		}
-		
-		.element:hover {
-			box-shadow: 0px 0px 12px rgba(0, 255, 255, 0.75);
-			border: 1px solid rgba(127, 255, 255, 0.75);
-		}
-
-		.element .number {
-			position: absolute;
-			top: 20px;
-			right: 20px;
-			font-size: 12px;
-			color: rgba(127, 255, 255, 0.75);
-		}
-
-		.element .symbol {
-			position: absolute;
-			top: 40px;
-			left: 0px;
-			right: 0px;
-			font-size: 60px;
-			font-weight: bold;
-			color: rgba(255, 255, 255, 0.75);
-			text-shadow: 0 0 10px rgba(0, 255, 255, 0.95);
-		}
-
-		.element .details {
-			position: absolute;
-			bottom: 15px;
-			left: 0px;
-			right: 0px;
-			font-size: 12px;
-			color: rgba(127, 255, 255, 0.75);
-		}
-
-		button {
-			color: rgba(127, 255, 255, 0.75);
-			background: transparent;
-			outline: 1px solid rgba(127, 255, 255, 0.75);
-			border: 0px;
-			padding: 5px 10px;
-			cursor: pointer;
-		}
-
-		button:hover {
-			background-color: rgba(0, 255, 255, 0.5);
-		}
-
-		button:active {
-			color: #000000;
-			background-color: rgba(0, 255, 255, 0.75);
-		}
-	</style>
 </head>
 <body>
-	<div id="container"></div>
+	<script src="https://apis.google.com/js/platform.js" async defer></script>
+	<script src="https://apis.google.com/js/api.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+	<script src="https://accounts.google.com/gsi/client" async defer></script>
+	<script type="module" src="/assets/js/main.js"></script>
 
+	<div class="container sign-in-wrap">
+		<div class="card">
+			<h2 class="alert alert-primary">Welcome Back</h2>
+			<h3>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</h3>
+			<!-- Add the Google Sign-In button -->
+			<div class="g-signin2" data-onsuccess="onSignIn"></div>
+			<div class="data">
+				<p>Name</p>
+				<p id="name" class="alert alert-success"></p>
+				<img id="image" class="rounded-circle" width="100" height="100"></img>
+				<p>Email</p>
+				<p id="email"></p>
+				<button type="button" class="btn btn-danger" onclick="signOut()">Sign Out</button>
+			</div>
+		</div>	
+	</div>
+
+	<div id="container"></div>
+	
 	<div id="menu">
 		<button id="table">TABLE</button>
 		<button id="sphere">SPHERE</button>
@@ -117,99 +57,5 @@
 		<button id="grid">GRID</button>
 		<button id="signout-button">Sign Out</button>
 	</div>
-
-	<!-- Add the Google Sign-In button -->
-	<div class="g-signin2" data-onsuccess="onSignIn" data-scope="https://www.googleapis.com/auth/spreadsheets.readonly"></div>
-
-	<script>
-    var periodicTableData = [];
-
-    // Function to initialize the Google Sign-In API
-    function initGoogleSignIn() {
-      gapi.load('auth2', function() {
-        gapi.auth2.init({
-          client_id: '782146836024-s25snr3e9450v0s10lra780dfo03ah8v.apps.googleusercontent.com'
-        }).then(function() {
-          console.log('Google Sign-In API initialized');
-        });
-      });
-    }
-
-    // Call the initGoogleSignIn function to initialize the Google Sign-In API
-    initGoogleSignIn();
-
-    // Function to handle the Google Sign-In success event
-    function onSignIn(googleUser) {
-      // Get the user's ID token, which can be used to authenticate with the backend
-      var id_token = googleUser.getAuthResponse().id_token;
-
-      // Get the user's profile information
-      var profile = googleUser.getBasicProfile();
-      console.log('ID: ' + profile.getId());
-      console.log('Name: ' + profile.getName());
-      console.log('Image URL: ' + profile.getImageUrl());
-      console.log('Email: ' + profile.getEmail());
-
-      // Load the Google Sheets API client
-      gapi.client.load('https://sheets.googleapis.com/$discovery/rest?version=v4').then(function() {
-        console.log('Google Sheets API client loaded');
-        // Retrieve the data from the Google Sheet
-        retrieveDataFromSheet();
-      });
-    }
-
-    // Function to retrieve data from the Google Sheet
-    function retrieveDataFromSheet() {
-      gapi.client.sheets.spreadsheets.values.get({
-        spreadsheetId: '10mEmRBCW5E_RrtKPKq_XHMPJVEHA3pBndSjjXzZA4es',
-        range: 'Data Template!A1:F201'
-      }).then(function(response) {
-        var range = response.result;
-        if (range.values.length > 0) {
-          periodicTableData = range.values;
-          console.log('Data retrieved successfully');
-          // Call the function to populate the periodic table
-          populatePeriodicTable();
-        } else {
-          console.log('No data found');
-        }
-      }, function(response) {
-        console.log('Error retrieving data: ' + response.result.error.message);
-      });
-    }
-
-    // Function to populate the periodic table
-    function populatePeriodicTable() {
-      // Code to populate the periodic table goes here
-      // Use the periodicTableData variable to access the data from the Google Sheet
-    }
-
-    // Add an event listener to the sign-out button
-    document.getElementById('signout-button').addEventListener('click', function() {
-      var auth2 = gapi.auth2.getAuthInstance();
-      auth2.signOut().then(function() {
-        console.log('User signed out.');
-      });
-    });
-  </script>
-	<!-- <script>
-		function populatePeriodicTable(data) {
-			// Your code to create the periodic table goes here
-			// Replace the hardcoded data with the data retrieved from Google Sheets
-			// For example, if you were creating elements like this:
-			// let element = createElement('H', 'Hydrogen', '1.008');
-			// You would replace it with something like this:
-			for (let i = 0; i < data.length; i++) {
-					let row = data[i];
-					let symbol = row[0];
-					let name = row[1];
-					let atomicWeight = row[2];
-					let element = createElement(symbol, name, atomicWeight);
-					// Add the element to the periodic table
-			}
-		}
-	</script> -->
-	<script src="https://accounts.google.com/gsi/client" async defer></script>
-	<script type="module" src="/assets/js/main.js"></script>
 </body>
 </html>
