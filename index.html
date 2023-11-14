@@ -1,11 +1,179 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>CSS3D - Periodic Table</title>
+
+	<!-- Add the Google Sign-In script -->
+	<meta name="google-signin-client_id" content="YOUR_CLIENT_ID.apps.googleusercontent.com">
+	<script src="https://apis.google.com/js/platform.js" async defer></script>
+	<script src="https://apis.google.com/js/api.js"></script>
+	
+	<!-- <link rel="stylesheet" href="/assets/css/style.css" /> -->
+	<!-- <script src="/assets/vendor/threejs/three.min.js"></script> -->
+	<script type="importmap">
+		{
+			"imports": {
+				"three": "https://unpkg.com/three/build/three.module.js"
+			}
+		}
+	</script>
+	<script type="module" src="/assets/vendor/threejs/tween.module.js"></script>
+	<script type="module" src="/assets/vendor/threejs/controls/TrackballControls.js"></script>
+	<script type="module" src="/assets/vendor/threejs/renderers/CSS3DRenderer.js"></script>
+
+	<style>
+		html, body {
+			height: 100%;
+		}
+
+		body {
+			background-color: #000000;
+			margin: 0;
+			font-family: Helvetica, sans-serif;;
+			overflow: hidden;
+		}
+
+		a {
+			color: #ffffff;
+		}
+
+		#menu {
+			position: absolute;
+			bottom: 20px;
+			width: 100%;
+			text-align: center;
+		}
+
+		.element {
+			width: 120px;
+			height: 160px;
+			box-shadow: 0px 0px 12px rgba(0, 255, 255, 0.5);
+			border: 1px solid rgba(127, 255, 255, 0.25);
+			text-align: center;
+			cursor: default;
+		}
+		
+		.element:hover {
+			box-shadow: 0px 0px 12px rgba(0, 255, 255, 0.75);
+			border: 1px solid rgba(127, 255, 255, 0.75);
+		}
+
+		.element .number {
+			position: absolute;
+			top: 20px;
+			right: 20px;
+			font-size: 12px;
+			color: rgba(127, 255, 255, 0.75);
+		}
+
+		.element .symbol {
+			position: absolute;
+			top: 40px;
+			left: 0px;
+			right: 0px;
+			font-size: 60px;
+			font-weight: bold;
+			color: rgba(255, 255, 255, 0.75);
+			text-shadow: 0 0 10px rgba(0, 255, 255, 0.95);
+		}
+
+		.element .details {
+			position: absolute;
+			bottom: 15px;
+			left: 0px;
+			right: 0px;
+			font-size: 12px;
+			color: rgba(127, 255, 255, 0.75);
+		}
+
+		button {
+			color: rgba(127, 255, 255, 0.75);
+			background: transparent;
+			outline: 1px solid rgba(127, 255, 255, 0.75);
+			border: 0px;
+			padding: 5px 10px;
+			cursor: pointer;
+		}
+
+		button:hover {
+			background-color: rgba(0, 255, 255, 0.5);
+		}
+
+		button:active {
+			color: #000000;
+			background-color: rgba(0, 255, 255, 0.75);
+		}
+	</style>
 </head>
 <body>
-    
+	<div id="container"></div>
+
+	<div id="menu">
+		<button id="table">TABLE</button>
+		<button id="sphere">SPHERE</button>
+		<button id="helix">HELIX</button>
+		<button id="grid">GRID</button>
+	</div>
+
+	<!-- Add the Google Sign-In button -->
+	<!-- <div class="g-signin2" data-onsuccess="onSignIn" data-scope="https://www.googleapis.com/auth/spreadsheets.readonly"></div> -->
+	<div class="g-signin2" data-onsuccess="onSignIn"></div>
+	
+	<!-- <script>
+		function onSignIn(googleUser) {
+			// Get the user's ID token, which can be used to authenticate with the backend
+			var id_token = googleUser.getAuthResponse().id_token;
+
+			// Get the user's profile information
+			var profile = googleUser.getBasicProfile();
+			console.log('ID: ' + profile.getId()); 
+			console.log('Name: ' + profile.getName());
+			console.log('Image URL: ' + profile.getImageUrl());
+			console.log('Email: ' + profile.getEmail());
+
+			// Load the Google Sheets API client
+			gapi.client.setApiKey("YOUR_API_KEY");
+			gapi.client.load("https://sheets.googleapis.com/$discovery/rest?version=v4")
+					.then(function() {
+							console.log("GAPI client loaded for API");
+							// Retrieve data from the user's spreadsheet
+							execute();
+					},
+					function(err) { console.error("Error loading GAPI client for API", err); });
+		}
+
+		function execute() {
+				return gapi.client.sheets.spreadsheets.values.get({
+						"spreadsheetId": "YOUR_SPREADSHEET_ID",
+						"range": "Sheet1!A1:E5"
+				})
+						.then(function(response) {
+								// Use the retrieved data to populate the periodic table
+								populatePeriodicTable(response.result.values);
+						},
+						function(err) { console.error("Execute error", err); });
+		}
+
+		function populatePeriodicTable(data) {
+			// Your code to create the periodic table goes here
+			// Replace the hardcoded data with the data retrieved from Google Sheets
+			// For example, if you were creating elements like this:
+			// let element = createElement('H', 'Hydrogen', '1.008');
+			// You would replace it with something like this:
+			for (let i = 0; i < data.length; i++) {
+					let row = data[i];
+					let symbol = row[0];
+					let name = row[1];
+					let atomicWeight = row[2];
+					let element = createElement(symbol, name, atomicWeight);
+					// Add the element to the periodic table
+			}
+		}
+	</script> -->
+	<script src="https://accounts.google.com/gsi/client" async defer></script>
+	<script type="module" src="/assets/js/main.js"></script>
+	<!-- <script type="module" src="/assets/js/main.js"></script> -->
 </body>
 </html>
