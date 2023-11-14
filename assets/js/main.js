@@ -6,27 +6,6 @@ import {
 import TWEEN from '../vendor/threejs/tween.module.js';
 import { TrackballControls } from '../vendor/threejs/controls/TrackballControls.js';
 
-function onSignIn(googleUser) {
-	var profile = googleUser.getBasicProfile();
-	$("#name").text(profile.getName());
-	$("#email").text(profile.getEmail());
-	$("#image").attr('src', profile.getImageUrl());
-	$(".data").css("display","block");
-	$(".g-signin2").css("display","none");
-	$("#container").css("display","none");
-	$("#menu").css("display","none");
-
-}
-
-function signOut() {
-	var auth2 = gapi.auth2.getAuthInstance();
-	auth2.signOut().then(function () {
-		alert("You have been signed out successfully");
-		$(".g-signin2").css("display", "block");
-		$(".data").css("display","none");
-	});
-}
-
 	const table = [
 		"H", "Hydrogen", "1.00794", 1, 1,
 		"He", "Helium", "4.002602", 18, 1,
