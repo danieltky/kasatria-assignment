@@ -115,57 +115,84 @@
 		<button id="sphere">SPHERE</button>
 		<button id="helix">HELIX</button>
 		<button id="grid">GRID</button>
+		<button id="signout-button">Sign Out</button>
 	</div>
 
 	<!-- Add the Google Sign-In button -->
-	<!-- <div class="g-signin2" data-onsuccess="onSignIn" data-scope="https://www.googleapis.com/auth/spreadsheets.readonly"></div> -->
-	<div class="g-signin2" data-onsuccess="onSignIn"></div>
+	<div class="g-signin2" data-onsuccess="onSignIn" data-scope="https://www.googleapis.com/auth/spreadsheets.readonly"></div>
 
-	<a href="#" onclick="signOut();">Sign out</a>
 	<script>
-		function signOut() {
-			var auth2 = gapi.auth2.getAuthInstance();
-			auth2.signOut().then(function () {
-				console.log('User signed out.');
-			});
-		}
-	</script>
-	
+    var periodicTableData = [];
+
+    // Function to initialize the Google Sign-In API
+    function initGoogleSignIn() {
+      gapi.load('auth2', function() {
+        gapi.auth2.init({
+          client_id: '782146836024-s25snr3e9450v0s10lra780dfo03ah8v.apps.googleusercontent.com'
+        }).then(function() {
+          console.log('Google Sign-In API initialized');
+        });
+      });
+    }
+
+    // Call the initGoogleSignIn function to initialize the Google Sign-In API
+    initGoogleSignIn();
+
+    // Function to handle the Google Sign-In success event
+    function onSignIn(googleUser) {
+      // Get the user's ID token, which can be used to authenticate with the backend
+      var id_token = googleUser.getAuthResponse().id_token;
+
+      // Get the user's profile information
+      var profile = googleUser.getBasicProfile();
+      console.log('ID: ' + profile.getId());
+      console.log('Name: ' + profile.getName());
+      console.log('Image URL: ' + profile.getImageUrl());
+      console.log('Email: ' + profile.getEmail());
+
+      // Load the Google Sheets API client
+      gapi.client.load('https://sheets.googleapis.com/$discovery/rest?version=v4').then(function() {
+        console.log('Google Sheets API client loaded');
+        // Retrieve the data from the Google Sheet
+        retrieveDataFromSheet();
+      });
+    }
+
+    // Function to retrieve data from the Google Sheet
+    function retrieveDataFromSheet() {
+      gapi.client.sheets.spreadsheets.values.get({
+        spreadsheetId: '10mEmRBCW5E_RrtKPKq_XHMPJVEHA3pBndSjjXzZA4es',
+        range: 'Data Template!A1:F201'
+      }).then(function(response) {
+        var range = response.result;
+        if (range.values.length > 0) {
+          periodicTableData = range.values;
+          console.log('Data retrieved successfully');
+          // Call the function to populate the periodic table
+          populatePeriodicTable();
+        } else {
+          console.log('No data found');
+        }
+      }, function(response) {
+        console.log('Error retrieving data: ' + response.result.error.message);
+      });
+    }
+
+    // Function to populate the periodic table
+    function populatePeriodicTable() {
+      // Code to populate the periodic table goes here
+      // Use the periodicTableData variable to access the data from the Google Sheet
+    }
+
+    // Add an event listener to the sign-out button
+    document.getElementById('signout-button').addEventListener('click', function() {
+      var auth2 = gapi.auth2.getAuthInstance();
+      auth2.signOut().then(function() {
+        console.log('User signed out.');
+      });
+    });
+  </script>
 	<!-- <script>
-		function onSignIn(googleUser) {
-			// Get the user's ID token, which can be used to authenticate with the backend
-			var id_token = googleUser.getAuthResponse().id_token;
-
-			// Get the user's profile information
-			var profile = googleUser.getBasicProfile();
-			console.log('ID: ' + profile.getId()); 
-			console.log('Name: ' + profile.getName());
-			console.log('Image URL: ' + profile.getImageUrl());
-			console.log('Email: ' + profile.getEmail());
-
-			// Load the Google Sheets API client
-			gapi.client.setApiKey("YOUR_API_KEY");
-			gapi.client.load("https://sheets.googleapis.com/$discovery/rest?version=v4")
-					.then(function() {
-							console.log("GAPI client loaded for API");
-							// Retrieve data from the user's spreadsheet
-							execute();
-					},
-					function(err) { console.error("Error loading GAPI client for API", err); });
-		}
-
-		function execute() {
-				return gapi.client.sheets.spreadsheets.values.get({
-						"spreadsheetId": "YOUR_SPREADSHEET_ID",
-						"range": "Sheet1!A1:E5"
-				})
-						.then(function(response) {
-								// Use the retrieved data to populate the periodic table
-								populatePeriodicTable(response.result.values);
-						},
-						function(err) { console.error("Execute error", err); });
-		}
-
 		function populatePeriodicTable(data) {
 			// Your code to create the periodic table goes here
 			// Replace the hardcoded data with the data retrieved from Google Sheets
@@ -184,6 +211,5 @@
 	</script> -->
 	<script src="https://accounts.google.com/gsi/client" async defer></script>
 	<script type="module" src="/assets/js/main.js"></script>
-	<!-- <script type="module" src="/assets/js/main.js"></script> -->
 </body>
 </html>
