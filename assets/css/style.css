@@ -4,7 +4,7 @@
 	}
 
 	body {
-		background-color: #000000;
+		/* background-color: #000000; */
 		margin: 0;
 		font-family: Helvetica, sans-serif;;
 		overflow: hidden;
@@ -87,17 +87,17 @@
 
 	.g-signin2 {
 		position: relative;
-		/* top: 50%;
+		top: 50%;
 		left: 50%;
 		margin-top: -50px;
-		margin-left: -50px; */
+		margin-left: -50px;
 	}
 
-	.sign-in-wrap {
+	/* .sign-in-wrap {
 		background-color: #ffffff;
 		position: absolute;
 		top: 25%;
 		left: 25%;
 		width: 50%;
 		height: 50%;
-	}
+	} */
